@@ -22,12 +22,8 @@ pipeline {
                     file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')
                 ]) {
                     sh '''
-                    # replace placeholders in YAML k8s files
-                    sed -i "s%{{APP_ENV}}%$APP_ENV%g" infra/k8s/bot.yaml
-                    sed -i "s%{{BOT_IMAGE}}%$BOT_IMAGE_NAME%g" infra/k8s/bot.yaml
-
                     # apply the configurations to k8s cluster
-                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f <path-to-bot-yaml-k8s-manifest>
                     '''
                 }
             }

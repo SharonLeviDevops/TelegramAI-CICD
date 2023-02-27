@@ -8,19 +8,11 @@ RUN yum update -y \
   && ./aws/install --bin-dir /aws-cli-bin/
 
 # kubectl
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
-    && chmod +x kubectl \
-    && mv ./kubectl /usr/local/bin/
-
-# yq
-RUN wget https://github.com/mikefarah/yq/releases/download/v4.30.8/yq_linux_amd64.tar.gz -O - |\
-      tar xz && mv yq_linux_amd64 /usr/bin/yq
+# TODO install kubectl here, then copy the binary into the below image stage
 
 FROM jenkins/agent
 COPY --from=docker /usr/local/bin/docker /usr/local/bin/
 COPY --from=installer /usr/local/aws-cli/ /usr/local/aws-cli/
 COPY --from=installer /aws-cli-bin/ /usr/local/bin/
-COPY --from=installer /usr/local/bin/kubectl /usr/local/bin/
-COPY --from=installer /usr/bin/yq /usr/bin/
 
 
