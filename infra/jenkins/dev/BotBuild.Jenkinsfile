@@ -4,8 +4,8 @@ pipeline {
             // TODO build & push your Jenkins agent image, place the URL here
             image 'public.ecr.aws/n5h8m9x0/jenkins-project-cicd:latest'
             args  '''
-                    aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n5h8m9x0
-                    sleep 10s
+                    sh aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n5h8m9x0
+                    sh sleep 10s
                     --user root -v /var/run/docker.sock:/var/run/docker.sock
                   '''
         }
