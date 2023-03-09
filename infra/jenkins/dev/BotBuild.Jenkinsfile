@@ -1,4 +1,11 @@
 pipeline {
+    options {
+        // Run init script before pipeline starts
+        script {
+            sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n5h8m9x0'
+            // Add any other commands you want to run as part of the init script
+        }
+    }
     agent {
         docker {
             // TODO build & push your Jenkins agent image, place the URL here
