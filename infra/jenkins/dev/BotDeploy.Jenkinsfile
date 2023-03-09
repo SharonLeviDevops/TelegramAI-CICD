@@ -23,8 +23,8 @@ pipeline {
                 ]) {
                     sh '''
                     # apply the configurations to k8s cluster
-                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --set env=dev
-                    kubectl set image deployment/bot-deployment bot=700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-dev:dev --kubeconfig ${KUBECONFIG} --namespace=default
+                    sed -i "s|image:.*|image: 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-dev:dev|" infra/k8s/bot.yaml
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --env=ENV=dev
                     '''
                 }
             }
