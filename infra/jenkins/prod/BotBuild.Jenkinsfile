@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             // TODO build & push your Jenkins agent image, place the URL here
-            image 'jenkins-project'
+            image '700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-cicd:latest'
             args  '--user root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
@@ -12,10 +12,10 @@ pipeline {
             steps {
                 // TODO dev bot build stage
                 sh '''
-                    aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n5h8m9x0
+                    aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 700935310038.dkr.ecr.us-west-1.amazonaws.com
                     docker build -t jenkins-project-prod -f ./bot/Dockerfile .
-                    docker tag jenkins-project-prod:latest public.ecr.aws/n5h8m9x0/jenkins-project-prod:latest
-                    docker push public.ecr.aws/n5h8m9x0/jenkins-project-prod:latest
+                    docker tag jenkins-project-prod:prod 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-prod:prod
+                    docker push 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-prod:prod
                 '''
             }
         }

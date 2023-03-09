@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: worker
-        image: public.ecr.aws/n5h8m9x0/jenkins-project-workerapp:latest
+        image:
         env:
           - name: ENV
-            value: ""
+            value: "dev" # replace with your environment

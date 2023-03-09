@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             // TODO build & push your Jenkins agent image, place the URL here
-            image 'jenkins-project'
+            image '700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-cicd:latest'
             args  '--user root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
@@ -24,7 +24,7 @@ pipeline {
             ]) {
                 sh '''
                 # apply the configurations to k8s cluster
-                  kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/worker.yaml --set env=prod
+                  kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/worker.yaml --set env=prod --image=700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-worker:prod
                 '''
                 }
             }
