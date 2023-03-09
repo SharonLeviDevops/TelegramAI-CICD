@@ -24,7 +24,7 @@ pipeline {
             ]) {
                 sh '''
                 # apply the configurations to k8s cluster
-                  kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/worker.yaml --set env=dev --image=700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-worker:dev
+                  kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/worker.yaml env=dev --image=700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-worker:dev
                 '''
                 }
             }
