@@ -24,7 +24,8 @@ pipeline {
                     sh '''
                     # apply the configurations to k8s cluster
                     sed -i "s|image:.*|image: 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-dev:dev|" infra/k8s/bot.yaml
-                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --env=ENV=dev
+                    sed -i 's|value:.*|value: "dev"|' infra/k8s/bot.yaml
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml
                     '''
                 }
             }
