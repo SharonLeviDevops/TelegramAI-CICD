@@ -13,7 +13,7 @@ pipeline {
                 // TODO dev bot build stage
                 sh '''
                     aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 700935310038.dkr.ecr.us-west-1.amazonaws.com
-                    docker build -t jenkins-project-prod -f ./bot/Dockerfile .
+                    docker build -t jenkins-project-prod:prod -f ./bot/Dockerfile .
                     docker tag jenkins-project-prod:prod 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-prod:prod
                     docker push 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-prod:prod
                 '''
