@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: bot
-        image:
+        image: 700935310038.dkr.ecr.us-west-1.amazonaws.com
         env:
           - name: ENV
-            value: "dev" # replace with your environment
+            value: ""
