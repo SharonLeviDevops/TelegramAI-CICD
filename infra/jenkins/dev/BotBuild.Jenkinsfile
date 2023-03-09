@@ -23,7 +23,7 @@ pipeline {
         stage('Trigger Deploy') {
             steps {
                 build job: 'BotDeploy', wait: false, parameters: [
-                    string(name: 'BOT_IMAGE_NAME', value: "jenkins-project-dev:latest")
+                    string(name: 'BOT_IMAGE_NAME', value: "jenkins-project-dev:dev")
                 ]
             }
         }
