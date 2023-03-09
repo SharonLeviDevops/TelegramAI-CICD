@@ -1,1 +1,22 @@
-# TODO implement the kubernetes manifest here
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bot-deployment
+  labels:
+    app: bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bot
+  template:
+    metadata:
+      labels:
+        app: bot
+    spec:
+      containers:
+      - name: bot
+        image: public.ecr.aws/n5h8m9x0/jenkins-project-botapp:latest
+        env:
+          - name: ENV
+            value: "dev" # replace with your environment

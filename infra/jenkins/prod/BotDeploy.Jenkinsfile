@@ -11,6 +11,22 @@ pipeline {
         APP_ENV = "prod"
     }
 
-    // TODO prod bot deploy pipeline
+    parameters {
+        string(name: 'BOT_IMAGE_NAME')
+    }
 
+    stages {
+        stage('Bot Deploy') {
+            steps {
+                withCredentials([
+                    file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')
+                ]) {
+                    sh '''
+                    # apply the configurations to k8s cluster
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --set env=prod
+                    '''
+                }
+            }
+        }
+    }
 }

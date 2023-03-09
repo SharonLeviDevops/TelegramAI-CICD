@@ -23,7 +23,7 @@ pipeline {
                 ]) {
                     sh '''
                     # apply the configurations to k8s cluster
-                    kubectl apply --kubeconfig ${KUBECONFIG} -f <path-to-bot-yaml-k8s-manifest>
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --set env=dev
                     '''
                 }
             }

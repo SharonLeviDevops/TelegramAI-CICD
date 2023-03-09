@@ -11,7 +11,23 @@ pipeline {
         APP_ENV = "prod"
     }
 
-    // TODO prod worker deploy pipeline
+    parameters {
+        string(name: 'jenkins-project-workerapp')
+    }
 
-
+    // TODO dev worker deploy stages here
+    stages {
+    stage('Bot Deploy') {
+        steps {
+            withCredentials([
+                file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')
+            ]) {
+                sh '''
+                # apply the configurations to k8s cluster
+                  kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/worker.yaml --set env=prod
+                '''
+                }
+            }
+        }
+    }
 }

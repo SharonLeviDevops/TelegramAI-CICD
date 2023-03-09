@@ -7,5 +7,25 @@ pipeline {
         }
     }
 
- // TODO prod bot build pipeline
+    stages {
+        stage('Build') {
+            steps {
+                // TODO dev bot build stage
+                sh '''
+                    aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n5h8m9x0
+                    docker build -t jenkins-project-prod -f ./bot/Dockerfile .
+                    docker tag jenkins-project-prod:latest public.ecr.aws/n5h8m9x0/jenkins-project-prod:latest
+                    docker push public.ecr.aws/n5h8m9x0/jenkins-project-prod:latest
+                '''
+            }
+        }
+
+//         stage('Trigger Deploy') {
+//             steps {
+//                 build job: 'BotDeploy', wait: false, parameters: [
+//                     string(name: 'BOT_IMAGE_NAME', value: "jenkins-project-prod:latest")
+//                 ]
+//             }
+//         }
+    }
 }

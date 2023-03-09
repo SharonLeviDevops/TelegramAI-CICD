@@ -1,6 +1,6 @@
 {
   "aws_region": "us-west-1",
-  "bot_to_worker_queue_name": "<jenkins-sqspj-dev>",
-  "telegram_token_secret_name": "<6055266348:AAHXwDhw6tUZfBSdBWLjy28WKSMMBCu0jYY>",
-  "videos_bucket": "<jenkins-s3pj-dev>"
+  "bot_to_worker_queue_name": "jenkins-sqspj-dev",
+  "telegram_token_secret_name": "jenkins_secretsmanager_dev",
+  "videos_bucket": "jenkins-s3pj-dev"
 }
