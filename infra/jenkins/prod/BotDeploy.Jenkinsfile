@@ -23,7 +23,10 @@ pipeline {
                 ]) {
                     sh '''
                     # apply the configurations to k8s cluster
-                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --set env=prod --image=700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-prod:prod
+                    sed -i "s|image:.*|image: 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-prod:prod|" infra/k8s/bot.yaml
+                    sed -i 's|value:.*|value: "dev"|' infra/k8s/bot.yaml
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml
+                    kubectl get deployments
                     '''
                 }
             }
