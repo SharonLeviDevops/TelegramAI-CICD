@@ -23,18 +23,10 @@ pipeline {
                 ]) {
                     sh '''
                     # apply the configurations to k8s cluster
-                    cat infra/k8s/bot.yaml
-                    sleep 5s
-                    cat infra/k8s/bot.yaml
-                    sleep 5s
                     sed -i "s|image:.*|image: 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-dev:dev|" infra/k8s/bot.yaml
                     sed -i 's|value:.*|value: "dev"|' infra/k8s/bot.yaml
-                    sleep 10s
-                    cat infra/k8s/bot.yaml
-                    sleep 5s
-                    cat infra/k8s/bot.yaml
-                    sleep 5s
                     kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml
+                    kubectl describe -A
                     '''
                 }
             }
