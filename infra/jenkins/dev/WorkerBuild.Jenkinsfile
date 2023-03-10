@@ -21,12 +21,12 @@ pipeline {
                 '''
             }
         }
-    }
         stage('Trigger Deploy') {
             steps {
                 build job: 'workerDeploy', wait: false, parameters: [
                     string(name: 'BOT_IMAGE_NAME', value: "jenkins-project-worker:dev")
                 ]
             }
+        }
     }
 }
