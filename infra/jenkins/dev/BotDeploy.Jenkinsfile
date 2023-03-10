@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             // TODO build & push your Jenkins agent image, place the URL here
-            image 'public.ecr.aws/n5h8m9x0/jenkins-project-cicd:latest'
+            image 'jenkins-project'
             args  '--user root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }

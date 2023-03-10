@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: bot
-        image: public.ecr.aws/n5h8m9x0/jenkins-project-botapp:latest
+        image:
         env:
           - name: ENV
             value: "dev" # replace with your environment
