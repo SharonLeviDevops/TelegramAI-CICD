@@ -26,7 +26,7 @@ pipeline {
                     sed -i "s|image:.*|image: 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-dev:dev|" infra/k8s/bot.yaml
                     sed -i 's|value:.*|value: "dev"|' infra/k8s/bot.yaml
                     kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml
-                    kubectl describe -A
+                    kubectl get deployments
                     '''
                 }
             }
