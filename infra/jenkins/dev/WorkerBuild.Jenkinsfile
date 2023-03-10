@@ -9,24 +9,21 @@ pipeline {
 
     stages {
         stage('Build') {
-            when {
-                changeset "worker/**"
-            }
             steps {
                 sh '''
                     aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 700935310038.dkr.ecr.us-west-1.amazonaws.com
-                    docker build -t jenkins-project-worker -f ./worker/Dockerfile .
+                    docker build -t jenkins-project-worker:dev -f ./worker/Dockerfile .
                     docker tag jenkins-project-worker:dev 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-worker:dev
                     docker push 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-worker:dev
                 '''
             }
         }
-    }
         stage('Trigger Deploy') {
-        steps {
-            build job: 'WorkerDeploy', wait: false, parameters: [
-                string(name: 'BOT_IMAGE_NAME', value: "jenkins-project-worker:dev")
-            ]
+            steps {
+                build job: 'workerDeploy', wait: false, parameters: [
+                    string(name: 'BOT_IMAGE_NAME', value: "jenkins-project-worker:dev")
+                ]
+            }
         }
     }
 }

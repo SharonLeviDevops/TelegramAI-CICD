@@ -15,7 +15,7 @@ pipeline {
             steps {
                 sh '''
                     aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 700935310038.dkr.ecr.us-west-1.amazonaws.com
-                    docker build -t jenkins-project-worker -f ./worker/Dockerfile .
+                    docker build -t jenkins-project-worker:prod -f ./worker/Dockerfile .
                     docker tag jenkins-project-worker:prod 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-worker:prod
                     docker push 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-worker:prod
                 '''
