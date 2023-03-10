@@ -12,7 +12,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'jenkins-project-workerapp')
+        string(name: 'jenkins-project-worker')
     }
 
     // TODO dev worker deploy stages here
@@ -24,8 +24,11 @@ pipeline {
             ]) {
                 sh '''
                 # apply the configurations to k8s cluster
-                  kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/worker.yaml --set env=prod --image=700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-worker:prod
-                '''
+                    sed -i "s|image:.*|image: 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-worker:prod|" infra/k8s/worker.yaml
+                    sed -i 's|value:.*|value: "dev"|' infra/k8s/worker.yaml
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/worker.yaml
+                    kubectl get deployments
+                  '''
                 }
             }
         }
