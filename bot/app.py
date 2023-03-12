@@ -70,7 +70,7 @@ class YoutubeBot(Bot):
             self.download_user_photo(quality=2)
         else:
             try:
-                self.send_text('Hello,its Sharon thanks for your message! We are currently processing it, please wait a moment........')
+                self.send_text('Hello,its Sharon thanks for your message! We are currently processing it, please wait a moment.......')
                 response = workers_queue.send_message(
                     MessageBody=message.text,
                     MessageAttributes={
