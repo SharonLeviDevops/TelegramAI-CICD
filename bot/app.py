@@ -22,7 +22,7 @@ class Bot:
 
     def start(self):
         """Start polling msgs from users, this function never returns"""
-        logger.info(f'{self.__class__.__name__} is up and listening to new messages...')
+        logger.info(f'{self.__class__.__name__} is up and listening to new messages..')
         logger.info('Telegram Bot information')
         logger.info(self.bot.get_me())
 
@@ -71,6 +71,7 @@ class YoutubeBot(Bot):
         else:
             try:
                 self.send_text('Hello,My name is SharonBot thanks for your message! We are currently processing it, please wait a moment............')
+
                 response = workers_queue.send_message(
                     MessageBody=message.text,
                     MessageAttributes={
