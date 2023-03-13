@@ -6,16 +6,20 @@ pipeline {
             args  '--user root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
-
+    environment {
+        IMAGE_NAME = 'jenkins-project-dev'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        REPO_URL = '700935310038.dkr.ecr.us-west-1.amazonaws.com'
+                }
     stages {
         stage('Build') {
             steps {
                 // TODO dev bot build stage
                 sh '''
-                    aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 700935310038.dkr.ecr.us-west-1.amazonaws.com
-                    docker build -t jenkins-project-dev:dev -f ./bot/Dockerfile .
-                    docker tag jenkins-project-dev:dev 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-dev:dev
-                    docker push 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-dev:dev
+                    aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin ${REPO_URL}
+                    docker build -t ${IMAGE_NAME} -f ./bot/Dockerfile .
+                    docker tag ${IMAGE_NAME} ${REPO_URL}/${IMAGE_NAME}:${BUILD_NUMBER}
+                    docker push ${REPO_URL}/${IMAGE_NAME}:${BUILD_NUMBER}
                    '''
             }
         }
@@ -23,7 +27,7 @@ pipeline {
         stage('Trigger Deploy') {
             steps {
                 build job: 'botDeploy', wait: false, parameters: [
-                    string(name: 'BOT_IMAGE_NAME', value: "jenkins-project-dev:dev")
+                    string(name: 'BOT_IMAGE_NAME', value: "${IMAGE_NAME}:${BUILD_NUMBER}")
                 ]
             }
         }
