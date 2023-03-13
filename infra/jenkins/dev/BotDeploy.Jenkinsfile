@@ -7,13 +7,15 @@ pipeline {
         }
     }
 
+    parameters {
+        string(name: 'BOT_IMAGE_NAME', defaultValue: '', description: 'image sent from build')
+
+    }
+
     environment {
         APP_ENV = "dev"
     }
 
-    parameters {
-        string(name: 'BOT_IMAGE_NAME')
-    }
 
     stages {
         stage('Bot Deploy') {
@@ -23,7 +25,7 @@ pipeline {
                 ]) {
                     sh '''
                     # apply the configurations to k8s cluster..
-                    echo ${BUILD_NUMBER}
+                    echo ${BOT_IMAGE_NAME}
                     sed -i "s|image:.*|image: jenkins-project-dev:$BUILD_NUMBER|" infra/k8s/bot.yaml
                     kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --namespace dev
                     sed -i 's|value:.*|value: "dev"|' infra/k8s/bot.yaml
