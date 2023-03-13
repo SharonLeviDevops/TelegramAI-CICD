@@ -8,8 +8,8 @@ pipeline {
     }
     environment {
         IMAGE_NAME = 'jenkins-project-dev'
-        IMAGE_TAG = "${BUILD_NUMBER}"
         REPO_URL = '700935310038.dkr.ecr.us-west-1.amazonaws.com'
+        IMAGE_TAG = sh(script: 'echo $BUILD_NUMBER', returnStdout: true).trim()
                 }
     stages {
         stage('Build') {
