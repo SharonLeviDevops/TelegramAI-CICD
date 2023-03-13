@@ -24,8 +24,8 @@ pipeline {
                     sh '''
                     # apply the configurations to k8s cluster..
                     echo ${BUILD_NUMBER}
-                    kubectl delete deployment bot-deployment --ignore-not-found --grace-period=0 --namespace dev
-                    sed -i "s|image:.*|image: ${IMAGE_NAME}:${BUILD_NUMBER}|" infra/k8s/bot.yaml
+                    sed -i "s|image:.*|image: jenkins-project-dev:${params.BUILD_NUMBER}|" infra/k8s/bot.yaml
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --namespace dev
                     sed -i 's|value:.*|value: "dev"|' infra/k8s/bot.yaml
                     kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --namespace dev
                     kubectl get deployments
