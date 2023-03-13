@@ -9,6 +9,9 @@ pipeline {
 
     environment {
         APP_ENV = "dev"
+        IMAGE_NAME = 'jenkins-project-dev'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        REPO_URL = '700935310038.dkr.ecr.us-west-1.amazonaws.com'
     }
 
     parameters {
@@ -24,7 +27,7 @@ pipeline {
                     sh '''
                     # apply the configurations to k8s cluster..
                     kubectl delete deployment bot-deployment --ignore-not-found --grace-period=0 --namespace dev
-                    sed -i "s|image:.*|image: 700935310038.dkr.ecr.us-west-1.amazonaws.com/jenkins-project-dev:dev|" infra/k8s/bot.yaml
+                    sed -i "s|image:.*|image: ${IMAGE_NAME}:${BUILD_NUMBER}|" infra/k8s/bot.yaml
                     sed -i 's|value:.*|value: "dev"|' infra/k8s/bot.yaml
                     kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --namespace dev
                     kubectl get deployments
